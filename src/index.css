@@ -1,0 +1,372 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 20px;
+}
+
+body.modal-open .container {
+  filter: blur(5px);
+  /* Apply blur effect */
+  transition: filter 0.3s ease-in-out;
+}
+
+.container {
+  max-width: 100%;
+  /* Set max-width to 1000px */
+  /* Allow it to take full width */
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+}
+
+/* Add padding and margin to avoid overlapping */
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Add space between the form elements */
+  margin-bottom: 16px; /* Space at the bottom of the form */
+}
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+input, select {
+  
+  width: 30%; /* Ensure input and select elements take full width */
+  box-sizing: border-box;
+}
+
+button {
+  padding: 10px 20px;
+  margin-top: 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Suggestions dropdown styles */
+.suggestions {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.suggestion-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.suggestion-item:hover {
+  background: #f0f0f0;
+}
+
+
+button {
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  flex: 0 0 auto;
+  /* Prevent button from stretching */
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+.hidden {
+  display: none;
+}
+
+.active-links {
+  margin-top: 20px;
+}
+
+.active-links h2 {
+  margin-bottom: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  height: 90%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 1100px;
+  background: white;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  overflow: hidden;
+  border-radius: 10px;
+  display: none; /* Hide by default */
+}
+
+.modal.modal-open {
+  display: flex; /* Show when modal is open */
+}
+
+.overlay.overlay-open {
+  display: block; /* Show when modal is open */
+}
+.modal-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.modal table {
+  width: 100%;
+  border-collapse: collapse;
+  
+}
+
+.modal th,
+.modal td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: center;
+  word-wrap: break-word;
+  /* Ensures long names wrap */
+  
+  /* Restricts column width */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  /* Adds '...' for overflowed text */
+}
+
+.modal-content .table-container {
+ 
+  width: 100%;
+  /* Limits the table height */
+  overflow-y: auto;
+  /* Makes table scrollable */
+  margin-bottom: 10px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  z-index: 999;
+}
+
+.model button {
+  padding: 10px;
+  border: none;
+  background: #333;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  width: 10%;
+}
+
+.model button:hover {
+  background: #555;
+}
+
+/* Style for college name link (button-style) */
+.link-button {
+  background-color: #007bff;
+  /* Blue background */
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.link-button:hover {
+  background-color: #0056b3;
+  /* Darker blue when hovered */
+}
+
+/* Style for URL links */
+.url-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #007bff;
+}
+
+.url-link .url-text {
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.url-link {
+  /* Green background for the "Visit" button */
+  color: rgb(1, 85, 255);
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s;
+}
+
+/* Style for Details button */
+.details-button {
+  background-color: #007bff; /* Blue background */
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+ 
+}
+
+.details-button:hover {
+  background-color: #0056b3; /* Darker blue when hovered */
+}
+/* Link Modal Styles */
+.link-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it's on top */
+}
+
+.link-modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  max-width: 700px;
+  text-align: center;
+}
+
+.link-modal h2 {
+  margin-bottom: 10px;
+}
+
+.link-modal p {
+  margin: 10px 0;
+}
+
+.link-modal button {
+  margin: 10px 5px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.link-modal button:hover {
+  background-color: #0056b3;
+}
+
+/* Style for the input field */
+/* Ensure the form and input elements are styled properly */
+/* Adjusting layout and ensuring spacing */
+.form-row {
+  position: relative;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.form-row{
+input[type="text"] {
+  width: 100%; /* Makes the input field take up the full width of its parent */
+  max-width: 350px; /* Limits the maximum width */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 5px;
+}
+
+select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.suggestions {
+  position: absolute;
+  top: 100%; /* Position below the input field */
+  left: 0;
+  max-width: 350px;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.suggestion-item {
+  padding: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.suggestion-item:hover {
+  background-color: #f0f0f0;
+}
+}

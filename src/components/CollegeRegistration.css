@@ -1,0 +1,106 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f0f2f5;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h1.title {
+    text-align: center;
+    color: #1a73e8;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.branch-container {
+    margin-top: 10px;
+}
+
+.branch-input {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.branch-input input {
+    flex: 1;
+}
+
+button {
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #1557b0;
+}
+
+.add-branch-btn {
+    background-color: #34a853;
+    margin-bottom: 20px;
+}
+
+.add-branch-btn:hover {
+    background-color: #2d8e47;
+}
+
+.remove-branch-btn {
+    background-color: #ea4335;
+    padding: 10px;
+}
+
+.remove-branch-btn:hover {
+    background-color: #d33426;
+}
+
+.success-message {
+    display: none;
+    background-color: #34a853;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.success-message {
+    display: block;
+}

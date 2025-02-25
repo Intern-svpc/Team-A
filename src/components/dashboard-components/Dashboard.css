@@ -1,0 +1,38 @@
+h2{
+    text-align: center;
+    margin: 20px 0;
+}
+
+.dashboard-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    gap: 30px;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.icon {
+    font-size: 30px;
+}
+
+.title {
+    margin: 10px 0;
+}
+
+.number {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.completed {
+    color: green;
+    font-size: 14px;
+}
