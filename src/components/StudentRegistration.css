@@ -1,0 +1,60 @@
+/* src/pages/StudentRegistration.css */
+
+.student-registration-container {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .student-registration-title {
+    font-size: 2rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .student-registration-test-id {
+    font-size: 1rem;
+    color: #555;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .student-registration-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  
+  .student-registration-label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #444;
+  }
+  
+  .student-registration-input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .student-registration-button {
+    padding: 12px;
+    font-size: 1.1rem;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .student-registration-button:hover {
+    background-color: #45a049;
+  }
+  

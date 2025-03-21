@@ -2,11 +2,22 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const { MongoClient } = require('mongodb');
+const fs = require('fs');
+
 
 const app = express();
 app.use(cors()); // Enable CORS for frontend requests
 app.use(express.json());
+//app.use(express.static(path.join(__dirname, "build"))); // Serve React build
 
+// app.get("*", (req, res) => {
+//     res.sendFile(path.join(__dirname, "build", "index.html"), function (err) {
+//       if (err) {
+//         res.status(500).send(err);
+//       }
+//     });
+//   });
+  
 // Connect to MongoDB
 mongoose.connect("mongodb://localhost:27017/yashind", {
     useNewUrlParser: true,
@@ -138,9 +149,10 @@ app.post("/api/generate-link", async (req, res) => {
         const cleanCollegeName = collegeName.replace(/\s+/g, "").toLowerCase();
         const cleanBranchName = branchName.replace(/\s+/g, "").toLowerCase();
 
-        // ✅ Construct the final exam link
+        // ✅ Construct the final exam link pointing to React frontend
+        const frontendBaseUrl = "http://localhost:3000"; // Adjust if using a different frontend URL
         const newLink = {
-            url: `http://localhost:5000/exam/${cleanCollegeName}-${cleanBranchName}-${uniqueId}`,
+            url: `${frontendBaseUrl}/exam/${cleanCollegeName}-${cleanBranchName}-${uniqueId}`,
             created_at: new Date(),
             expiry: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24-hour expiry
             year,
@@ -172,6 +184,27 @@ app.post("/api/generate-link", async (req, res) => {
         res.status(500).json({ error: "Error generating link" });
     }
 });
+
+app.get("/api/exam/:examId", async (req, res) => {
+    try {
+        const { examId } = req.params;
+        console.log("Received Exam ID:", examId);
+
+        const exam = await ActiveExam.findOne({ url: { $regex: examId } });
+
+        if (!exam) {
+            console.error("Exam not found:", examId);
+            return res.status(404).json({ error: "Exam not found" });
+        }
+
+        res.json(exam);
+    } catch (error) {
+        console.error("Error fetching exam:", error);
+        res.status(500).json({ error: "Server error" });
+    }
+});
+
+
 
 
 
@@ -275,12 +308,19 @@ app.post("/api/links", async (req, res) => {
         console.log("Generating new link...");
 
         // Generate a new unique link
-        const newLink = {
+        const newLink0 = {
             url: `http://localhost:5000/api/join/${college}-${branch}-${Date.now()}`,
             created_at: new Date(),
             year: year,
             semester: semester,
         };
+        const newLink = {
+            url: `http://localhost:3000/join/${collegeData.collegeName.replace(/\s+/g, '')}-${branchData.branchName.replace(/\s+/g, '')}-${Date.now()}`,
+            created_at: new Date(),
+            year : year,
+            semester : semester,
+          };
+          
 
         const newActiveExam = new ActiveExam({
             college,
@@ -349,6 +389,45 @@ app.get("/api/counts", async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
+
+app.post('/api/register-student', async (req, res) => {
+    const { name, roll_no, contact, email, college, branch, url } = req.body; // ✅ Use `college`
+
+    if (!name || !roll_no || !contact || !email || !college || !branch || !url) { // ✅ Check `college`
+        return res.status(400).json({ error: "All fields are required" });
+    }
+
+    try {
+        let student = await Student.findOne({ roll_no });
+
+        if (student) {
+            const urlExists = student.url.some((entry) => entry.url === url);
+            if (!urlExists) {
+                student.url.push({ url, attempted: true, submitted: false });
+                await student.save();
+            }
+        } else {
+            student = new Student({
+                name,
+                roll_no,
+                contact,
+                email,
+                college, // ✅ Save `college`
+                branch,
+                url: [{ url, attempted: true, submitted: false }],
+            });
+
+            await student.save();
+        }
+
+        res.status(200).json({ message: "Student registered successfully", student });
+    } catch (error) {
+        console.error("Error registering student:", error);
+        res.status(500).json({ error: "Failed to register student" });
+    }
+});
+
+
 
 
 // app.get("/api/expired-links", async (req, res) => {
@@ -577,11 +656,96 @@ async function deleteOldUrls() {
     }
 }
 
-//deleteOldUrls().catch(console.error);
+// Define Quiz Schema
+const questionSchema = new mongoose.Schema({
+    question: String,
+    answers: [String], // Stores multiple-choice options
+    answerIndex: Number // Index of the correct answer
+});
+
+const Question = mongoose.model("Question", questionSchema, "questions");
+
+// Load questions from JSON and store in MongoDB (only once)
+async function loadQuestions() {
+    const count = await Question.countDocuments();
+    if (count === 0) {
+        const questionsData = JSON.parse(fs.readFileSync("questions.json", "utf8"));
+        await Question.insertMany(questionsData);
+        console.log("Questions loaded into MongoDB");
+    }
+}
+loadQuestions();
+
+// API to fetch 30 quiz questions (hides correct answer)
+app.get("/api/questions", async (req, res) => {
+    try {
+        const questions = await Question.find({}, { answerIndex: 0 }).limit(30); // Fetch only 30 questions
+        res.json(questions);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch questions" });
+    }
+});
 
 
-// deleteOldUrls().catch(console.error);
+// Submit quiz and calculate score
+app.post("/api/submit", async (req, res) => {
+    try {
+        const { userResponses } = req.body;
+        const questions = await Question.find({}, { question: 1, answers: 1, answerIndex: 1 }).limit(30); // Fetch only 30 questions
 
+        let correct = 0;
+        let incorrect = 0;
+        let unattempted = 0;
+        let review = [];
+
+        questions.forEach((q, index) => {
+            const userAnswer = userResponses[index];
+            const isAttempted = userAnswer !== null && userAnswer !== undefined;
+            const isCorrect = isAttempted && userAnswer === q.answerIndex;
+
+            if (isCorrect) {
+                correct++;
+            } else if (isAttempted) {
+                incorrect++;
+            } else {
+                unattempted++;
+            }
+
+            review.push({
+                question: q.question,
+                options: q.answers,
+                selected: isAttempted ? userAnswer : null,
+                correct: q.answerIndex,
+                isCorrect,
+                isAttempted
+            });
+        });
+
+        const score = correct; // only correct answers count
+        const total = questions.length; // Always 30 since we're fetching 30 questions
+
+        res.json({
+            score,
+            total,
+            correct,
+            incorrect,
+            unattempted,
+            review
+        });
+    } catch (error) {
+        res.status(500).json({ error: "Error calculating score" });
+    }
+});
+
+const path = require("path"); // ✅ Ensure 'path' is imported
+
+// Serve React build
+app.use(express.static(path.join(__dirname, "build")));
+
+// ✅ Handle React routes (important!)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 
 const PORT = 5000;

@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Link, Routes, Route } from "react-router-dom";
 import Dashboard from "./dashboard-components/Dashboard";
 import PaidCollegeRecord from "./dashboard-components/PaidCollegeRecord";
-//import Messages from "./Messages";
+import StudentRegistration from "./StudentRegistration";
 import ExpiredLinksTable from "./ExpiredLinksTable";
 import ActiveLinksTable from "./ActiveLinksTable";
 import CollegeRegistration from "./CollegeRegistration";
 import Logout from "./dashboard-components/Logout";
+import AptitudeQuiz from "./AptitudeQuiz";
 import "./AdminDashboard.css";
 import {
   fetchColleges,
@@ -23,7 +24,7 @@ import {
   FaSignOutAlt,
   FaBook,
 } from "react-icons/fa";
-import LinkModal from "./LinkModal";
+
 
 const AdminPanel = () => {
   const [colleges, setColleges] = useState([]);
@@ -233,7 +234,6 @@ const AdminPanel = () => {
           <Link to="/Dashboard">
             <FaHome /> <span>Dashboard</span>
           </Link>
-
           <div
             onClick={() =>
               setSubmenuOpen({ ...submenuOpen, college: !submenuOpen.college })
@@ -311,9 +311,7 @@ const AdminPanel = () => {
             </div>
           )}
 
-          <Link to="/messages">
-            <FaEnvelope /> <span>Messages</span>
-          </Link>
+          
 
           <Link to="/logout">
             <FaSignOutAlt /> <span>Logout</span>
@@ -363,8 +361,9 @@ const AdminPanel = () => {
             }
           />
           <Route path="/regular-past-exams" element={<ExpiredLinksTable expiredLinks={expiredLinks || []} />} />
-
-
+          {/* <Route path="/exam/:examId" element={<StudentRegistration />} />
+          <Route path="/quiz/:examId" element={<AptitudeQuiz />} /> */}
+          {/* <Route path="/quiz" element={<AptitudeQuiz />} /> */}
           <Route path="/logout" element={<Logout />} />
         </Routes>
       </div>

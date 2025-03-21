@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Communication Skills Quiz</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .header {
+            background-color: #4C6EF5;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 20px;
+        }
+        .timer {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .quiz-container {
+            display: flex;
+            flex: 1;
+            background: white;
+        }
+        .question-section {
+            flex: 2;
+            padding: 20px;
+            border-right: 2px solid #e0e0e0;
+        }
+        .options button {
+            margin: 8px 0;
+            padding: 12px;
+            border: 1px solid #ccc;
+            background: #f8fafc;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        .options button:hover, .selected {
+            background: #dbeafe;
+        }
+        .nav-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .nav-buttons button, .submit-btn {
+            padding: 12px 20px;
+            border: none;
+            background: #4C6EF5;
+            color: white;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        .sidebar {
+            flex: 1;
+            background: #f0f0f0;
+            padding: 20px;
+        }
+        .tracker button {
+            margin: 5px;
+            padding: 10px;
+            border: none;
+            border-radius: 50%;
+            background: #ccc;
+            cursor: pointer;
+        }
+        .tracker button.answered {
+            background: #4C6EF5;
+            color: white;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            width: 50%;
+            text-align: center;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="timer" id="timer">03:00</div>
+        Communication Skills Quiz
+    </div>
+    <div class="quiz-container">
+        <div class="question-section">
+            <div class="question-text" id="question-text"></div>
+            <div class="options" id="options"></div>
+            <div class="nav-buttons">
+                <button onclick="prevQuestion()">Previous</button>
+                <button onclick="clearSelection()">Clear Selection</button>
+                <button onclick="nextQuestion()">Save & Next</button>
+                <button class="submit-btn" onclick="submitQuiz()">Submit</button>
+            </div>
+        </div>
+        <div class="sidebar">
+            <h3>Quiz Progress</h3>
+            <div class="tracker" id="tracker"></div>
+        </div>
+    </div>
+    <div class="popup" id="resultPopup">
+        <h2>Quiz Result</h2>
+        <p id="score"></p>
+        <h3>Review Answers</h3>
+        <div id="review"></div>
+        <button class="close" onclick="closePopup()">Close</button>
+    </div>
+    <script>
+        let currentQuestion = 0;
+        let selectedOptions = {};
+        let timeLeft = 180;
+        let timerInterval;
+        const questions = [
+            { q: "Which is the most effective way to communicate in a professional setting?", options: ["Texting", "Email", "Face-to-face", "Social media"], answer: 2 },
+            { q: "What does active listening involve?", options: ["Nodding occasionally", "Reframing what the speaker said", "Interrupting with your thoughts", "Waiting for your turn to speak"], answer: 1 },
+            { q: "Which body language signals confidence?", options: ["Slouching", "Avoiding eye contact", "Standing tall with open posture", "Crossing arms"], answer: 2 },
+            { q: "What is the key to resolving a conflict effectively?", options: ["Raising your voice", "Ignoring the issue", "Listening to all perspectives", "Avoiding discussion"], answer: 2 },
+            { q: "What is an important aspect of email etiquette?", options: ["Using emojis frequently", "Keeping the subject line clear", "Writing long paragraphs", "Using all caps"], answer: 1 },
+            { q: "Which of the following is a barrier to effective communication?", options: ["Active listening", "Empathy", "Interrupting frequently", "Clarity"], answer: 2 },
+            { q: "How can you ensure clarity in communication?", options: ["Using complex words", "Keeping messages concise", "Speaking quickly", "Avoiding eye contact"], answer: 1 },
+            { q: "What is the best way to handle misunderstandings in communication?", options: ["Assume intent", "Clarify through questions", "Ignore the issue", "Talk over the other person"], answer: 1 },
+            { q: "Which is an example of non-verbal communication?", options: ["Email", "Tone of voice", "A memo", "A phone call"], answer: 1 },
+            { q: "Why is feedback important in communication?", options: ["To criticize others", "To ensure understanding", "To prove superiority", "To dismiss concerns"], answer: 1 }
+        ];
+
+        startTimer();
+        loadQuestion();
+    </script>
+</body>
+</html>

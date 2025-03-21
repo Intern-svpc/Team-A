@@ -4,10 +4,16 @@ import ActiveLinksTable from "./components/ActiveLinksTable";
 import StudentModal from "./components/StudentModal";
 import ExpiredLinksTable from "./components/ExpiredLinksTable";
 import LinkModal from "./components/LinkModal";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AdminDashboard from "./components/AdminDashboard"; // Import the component
 //import MainLayout from "./components/MainLayout";
 import { fetchColleges, fetchActiveLinks, generateLink, fetchStudentsByLink } from "./services/api";
 import "./App.css";
+import StudentRegistration from "./components/StudentRegistration";
+import CollegeRegistration from "./components/CollegeRegistration";
+import Dashboard from "./components/dashboard-components/Dashboard";
+import AptitudeQuiz from "./components/AptitudeQuiz";
+import Logout from "./components/dashboard-components/Logout";
 
 function App() {
   const [colleges, setColleges] = useState([]);
@@ -160,49 +166,17 @@ function App() {
   const closeLinkModal = () => {
     setIsLinkModalOpen(false);
   };
-  return <AdminDashboard />;
-//   return (
-//     <div className="container">
-//       {/* <MainLayout /> */}
-//       <h1>College Link Generator</h1>
+  return (
+    <>
+      <Routes>
+        {/* Route for Admin Dashboard */}
+        <Route path="/*" element={<AdminDashboard />} />
 
-//       <CollegeForm
-//   colleges={colleges}
-//   selectedCollege={selectedCollege}
-//   selectedBranch={selectedBranch}
-//   selectedYear={selectedYear}
-//   selectedSemester={selectedSemester}
-//   attempts={attempts}
-//   searchQuery={searchQuery}
-//   handleCollegeChange={handleCollegeChange}
-//   onBranchChange={handleBranchChange}
-//   onYearChange={handleYearChange}
-//   onSemesterChange={handleSemesterChange}
-//   onGenerateLink={handleGenerateLink}
-//   filteredColleges={filteredColleges}
-//   setSelectedCollege={setSelectedCollege}
-//   setSearchQuery={setSearchQuery}
-//   setFilteredColleges={setFilteredColleges}
-// />
-
-//       <ActiveLinksTable activeLinks={activeLinks} onDetailsClick={openStudentModal} />
-//       <StudentModal
-//         isOpen={isModalOpen}
-//         onClose={closeModal}
-//         title={modalTitle}
-//         students={students}
-//       />
-//       {isLinkModalOpen && (
-//         <LinkModal
-//           link={generatedLink}
-//           expiry={expiry}
-//           onClose={closeLinkModal}
-//         />
-//       )}
-//       <h2>Expired Links:</h2>
-//       <ExpiredLinksTable expiredLinks={expiredLinks} /> {/* Pass expired links */}
-//     </div>
-//   );
+        {/* Separate pages for student registration and quiz */}
+        <Route path="/exam/:examId" element={<StudentRegistration />} />
+        <Route path="/quiz/:studentId" element={<AptitudeQuiz />} />
+      </Routes>
+    </>
+  );
 }
-
 export default App;

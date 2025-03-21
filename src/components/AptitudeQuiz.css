@@ -1,0 +1,122 @@
+/* AptitudeQuiz.css */
+.quiz-container {
+    width: 70%;
+
+    margin: auto;
+    text-align: center;
+    background-color: #f5f7fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #007bff;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.timer {
+    font-size: 30px;
+    font-weight: bold;
+    background-color: #2555a3;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.apti h2 {
+    color: #ffffff;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.options button {
+    background-color: #007bff;; /* Brown color */
+    color: white;
+    padding: 12px;
+    border: 2px solid #5a3210; /* Darker brown border */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 16px;
+    text-align: center;
+    width: 80%;
+    margin: auto;
+}
+
+.options button:hover {
+    background-color: #2555a3; /* Lighter brown on hover */
+}
+
+.options button.selected {
+    background-color: #550a16; /* Darker brown for selected option */
+}
+
+.nav-buttons {
+    margin-top: 20px;
+}
+
+.nav-buttons button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.nav-buttons button:hover {
+    background-color: #2555a3;
+}
+
+.result-section {
+    background-color: #e2e8f0;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.result-section h2 {
+    color: #007bff;
+}
+
+.result-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.result-section li {
+    background-color: white;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+/* 
+.sidebar {
+    flex: 1;
+    background: #f0f0f0;
+    padding: 20px;
+} */
+.tracker button {
+    margin: 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 50%;
+    background: #ccc;
+    cursor: pointer;
+}
+.tracker button.answered {
+    background: #4C6EF5;
+    color: white;
+}
